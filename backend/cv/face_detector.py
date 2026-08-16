@@ -58,16 +58,28 @@ class FaceModelSingleton:
         from insightface.app import FaceAnalysis
 
         settings = get_settings()
+
+        # Enforce CPU execution for cloud deployment (prevents CUDA driver lookups)
+        providers = ["CPUExecutionProvider"]
+
+        # Override heavy model pack 'buffalo_l' with 'buffalo_sc' to stay under 512MB RAM limit
+        configured_pack = getattr(settings, "INSIGHTFACE_MODEL_PACK", "buffalo_sc")
+        model_pack = "buffalo_sc" if configured_pack == "buffalo_l" else configured_pack
+
         logger.info(
             "Loading InsightFace model pack '%s' (providers=%s)... this happens once per process.",
-            settings.INSIGHTFACE_MODEL_PACK,
-            settings.INSIGHTFACE_PROVIDERS,
+            model_pack,
+            providers,
         )
         app = FaceAnalysis(
-            name=settings.INSIGHTFACE_MODEL_PACK,
-            providers=[settings.INSIGHTFACE_PROVIDERS],
+            name=model_pack,
+            providers=providers,
         )
-        app.prepare(ctx_id=0, det_size=(settings.INSIGHTFACE_DET_SIZE, settings.INSIGHTFACE_DET_SIZE))
+
+        # ctx_id=-1 explicitly forces CPU execution (ctx_id=0 targets CUDA GPU)
+        det_size = getattr(settings, "INSIGHTFACE_DET_SIZE", 640)
+        app.prepare(ctx_id=-1, det_size=(det_size, det_size))
+
         logger.info("InsightFace model pack loaded and ready.")
         return app
 
