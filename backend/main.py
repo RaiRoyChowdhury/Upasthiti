@@ -10,6 +10,11 @@ Phase 10: retention enforcement background job (docs/retention.md).
 """
 
 import asyncio
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+# Your existing imports continue below:
+from services.face_service import get_face_analyzer
 from contextlib import asynccontextmanager
 from pathlib import Path
 
