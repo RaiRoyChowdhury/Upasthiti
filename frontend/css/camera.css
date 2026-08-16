@@ -1,0 +1,325 @@
+/* =============================================================================
+   Live Attendance camera page
+============================================================================= */
+
+.camera-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .camera-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.camera-stage {
+  position: relative;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-stage video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirror, feels natural for a self-facing camera */
+}
+
+.camera-placeholder {
+  color: var(--text-tertiary);
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.camera-status-pill {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(19, 20, 23, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.camera-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+}
+.camera-status-dot.live {
+  background: var(--success);
+  box-shadow: 0 0 0 4px var(--success-muted);
+}
+.camera-status-dot.busy {
+  background: var(--warning);
+  box-shadow: 0 0 0 4px var(--warning-muted);
+}
+.camera-status-dot.error {
+  background: var(--danger);
+  box-shadow: 0 0 0 4px var(--danger-muted);
+}
+
+.camera-name-overlay {
+  position: absolute;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(19, 20, 23, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.camera-controls {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* ---- Result panel ---- */
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.result-state-icon {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: var(--space-2);
+}
+
+.result-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  text-align: center;
+}
+
+.result-subtitle {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.verification-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.verification-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+}
+.verification-item .check-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.verification-item.pass .check-icon {
+  background: var(--success-muted);
+  color: var(--success);
+}
+.verification-item.fail .check-icon {
+  background: var(--danger-muted);
+  color: var(--danger);
+}
+.verification-item.pending .check-icon {
+  background: var(--surface-elevated);
+  color: var(--text-tertiary);
+}
+
+.integrity-score-block {
+  text-align: center;
+  padding: var(--space-4);
+  background: var(--surface-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.integrity-score-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent-text), var(--success));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.integrity-score-label {
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  margin-top: var(--space-1);
+}
+
+.session-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+/* ---- Overlay canvas (bounding boxes) ---- */
+.overlay-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(-1); /* mirrors identically to the video — see overlay.js docstring */
+  pointer-events: none;
+}
+
+/* ---- WebSocket connection status pill (topbar) ---- */
+.ws-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.ws-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+}
+.ws-status-dot.live {
+  background: var(--success);
+  box-shadow: 0 0 0 3px var(--success-muted);
+}
+.ws-status-dot.reconnecting {
+  background: var(--warning);
+  box-shadow: 0 0 0 3px var(--warning-muted);
+  animation: pulse-dot 1s ease infinite;
+}
+.ws-status-dot.error {
+  background: var(--danger);
+  box-shadow: 0 0 0 3px var(--danger-muted);
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ---- Live status panel ---- */
+.live-status-panel {
+  margin-top: var(--space-4);
+}
+.live-status-title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-3);
+}
+.live-status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.live-status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+.live-status-value {
+  margin-left: auto;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.status-dot-sm {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  flex-shrink: 0;
+}
+.status-dot-sm.on {
+  background: var(--success);
+}
+.status-dot-sm.off {
+  background: var(--danger);
+}
+
+/* ---- Activity feed ---- */
+.activity-feed-card {
+  margin-top: var(--space-5);
+}
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 320px;
+  overflow-y: auto;
+}
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--fs-sm);
+}
+.activity-item:last-child {
+  border-bottom: none;
+}
+.activity-icon {
+  width: 20px;
+  flex-shrink: 0;
+  text-align: center;
+}
+.activity-icon.success { color: var(--success); }
+.activity-icon.warning { color: var(--warning); }
+.activity-icon.danger { color: var(--danger); }
+.activity-icon.info { color: var(--info); }
+.activity-time {
+  color: var(--text-tertiary);
+  font-size: var(--fs-xs);
+  min-width: 56px;
+}
+.activity-body .activity-name {
+  font-weight: 600;
+}
+.activity-body .activity-detail {
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+}

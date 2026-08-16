@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sessions — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <style>
+    table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+    th { text-align: left; color: var(--text-tertiary); font-size: var(--fs-xs); text-transform: uppercase;
+         letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    .sortable-th { cursor: pointer; user-select: none; }
+    .sortable-th:hover { color: var(--text-primary); }
+    .sortable-th.sorted-asc::after { content: " ▲"; }
+    .sortable-th.sorted-desc::after { content: " ▼"; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">◆</span> Dashboard</a>
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">◎</span> Live Attendance</a>
+      <a href="multi-face.html" class="nav-item"><span class="nav-icon">◫</span> Classroom Scan</a>
+      <a href="sessions.html" class="nav-item active"><span class="nav-icon">▤</span> Sessions</a>
+      <a href="reviews.html" class="nav-item"><span class="nav-icon">⚑</span> Review Center</a>
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item"><span class="nav-icon">☺</span> Students</a>
+      <a href="users.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Users &amp; Roles</a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">▦</span> Analytics</a>
+      <a href="reports.html" class="nav-item"><span class="nav-icon">▧</span> Reports</a>
+
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item"><span class="nav-icon">▥</span> Classes</a>
+      <a href="settings.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Settings</a>
+      <a href="privacy.html" class="nav-item"><span class="nav-icon">🔒</span> Privacy Center</a>
+      <a href="demo.html" class="nav-item"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">Sessions</div>
+      <div class="topbar-right">
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Attendance Sessions</h1>
+          <p>Create and manage class sessions. Only an active session accepts attendance.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: var(--space-5);">
+        <form id="session-create-form">
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0 16px;">
+            <div class="field"><label>Subject</label><input class="input" name="subject" required /></div>
+            <div class="field"><label>Class</label><input class="input" name="class_name" required /></div>
+            <div class="field"><label>Section</label><input class="input" name="section" required /></div>
+            <div class="field"><label>Late threshold (min, optional)</label><input class="input" type="number" min="0" name="late_threshold_minutes" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Session</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="subject" class="sortable-th">Subject</th>
+              <th data-sort="class_name" class="sortable-th">Class / Section</th>
+              <th data-sort="status" class="sortable-th">Status</th>
+              <th data-sort="start_time" class="sortable-th">Started</th>
+              <th>Late Threshold</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="sessions-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="card hidden" id="occupancy-panel" style="margin-top: var(--space-5);"></div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/sessions.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

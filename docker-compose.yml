@@ -1,0 +1,45 @@
+# SmartAttend AI - local development via Docker Compose.
+# Optional convenience (spec: "if practical") - NOT required to run the
+# project; the venv-based setup in README.md is the primary, documented path.
+#
+# Usage:
+#   1. cp .env.example .env  and fill in real values
+#      - to use the bundled `mongo` service instead of Atlas, set:
+#        MONGODB_URI=mongodb://mongo:27017
+#   2. docker compose up --build
+#   3. App available at http://localhost:8000/app/pages/login.html
+#   4. Create the first admin (one-off, inside the running container):
+#        docker compose exec backend python scripts/create_admin.py
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    volumes:
+      # Live-reload-style convenience: mount source so code changes on the
+      # host are visible without rebuilding. Remove for a production-like
+      # immutable-image test.
+      - ./backend:/app/backend
+      - ./frontend:/app/frontend
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  # Optional local MongoDB, for fully offline development without Atlas.
+  # Atlas remains the recommended default (see .env.example) — this
+  # service exists purely so `docker compose up` can work with zero
+  # external accounts if someone wants that.
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

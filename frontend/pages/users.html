@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users & Roles — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <style>
+    table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+    th { text-align: left; color: var(--text-tertiary); font-size: var(--fs-xs); text-transform: uppercase;
+         letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">◆</span> Dashboard</a>
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">◎</span> Live Attendance</a>
+      <a href="multi-face.html" class="nav-item"><span class="nav-icon">◫</span> Classroom Scan</a>
+      <a href="sessions.html" class="nav-item"><span class="nav-icon">▤</span> Sessions</a>
+      <a href="reviews.html" class="nav-item"><span class="nav-icon">⚑</span> Review Center</a>
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item"><span class="nav-icon">☺</span> Students</a>
+      <a href="users.html" class="nav-item active" data-role-only="admin"><span class="nav-icon">⚙</span> Users &amp; Roles</a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">▦</span> Analytics</a>
+      <a href="reports.html" class="nav-item"><span class="nav-icon">▧</span> Reports</a>
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item"><span class="nav-icon">▥</span> Classes</a>
+      <a href="settings.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Settings</a>
+      <a href="privacy.html" class="nav-item"><span class="nav-icon">🔒</span> Privacy Center</a>
+      <a href="demo.html" class="nav-item"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">Users &amp; Roles</div>
+      <div class="topbar-right">
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content" id="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Users &amp; Roles</h1>
+          <p>Create accounts, manage roles, and link student logins to roster records.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: var(--space-5);">
+        <h3 style="margin-bottom: var(--space-3);">Create User</h3>
+        <form id="user-create-form">
+          <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 0 16px;">
+            <div class="field"><label>Full Name</label><input class="input" name="name" required /></div>
+            <div class="field"><label>Email</label><input class="input" type="email" name="email" required /></div>
+            <div class="field"><label>Password</label><input class="input" type="password" name="password" minlength="8" required /></div>
+            <div class="field">
+              <label>Role</label>
+              <select class="input" name="role" required>
+                <option value="teacher">teacher</option>
+                <option value="admin">admin</option>
+                <option value="student">student</option>
+              </select>
+            </div>
+            <div class="field" style="grid-column: 1 / -1;">
+              <label>Link to Student ID (optional — only relevant for role "student")</label>
+              <input class="input" name="student_id" placeholder="e.g. S001" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Create User</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: var(--space-4);">
+          <h3>All Users</h3>
+          <select class="input" id="role-filter" style="max-width: 160px;">
+            <option value="">All roles</option>
+            <option value="admin">admin</option>
+            <option value="teacher">teacher</option>
+            <option value="student">student</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Linked Student</th><th>Status</th><th></th></tr></thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/users.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

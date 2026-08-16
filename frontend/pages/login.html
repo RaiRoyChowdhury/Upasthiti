@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — Upasthiti</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card fade-in">
+      <div class="auth-brand">
+        <div class="auth-brand-mark">U</div>
+        <div>
+          <div class="auth-brand-name">Upasthiti</div>
+          <div class="auth-brand-tag">Attendance Integrity &amp; Intelligence Platform</div>
+        </div>
+      </div>
+
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-subtitle">Sign in to your institution's dashboard.</p>
+
+      <div id="login-error" class="alert alert-danger hidden" style="margin-bottom: 16px;"></div>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" type="email" id="email" name="email" placeholder="you@institution.edu" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+
+        <button type="submit" id="login-submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+
+      <div class="auth-footer">
+        Upasthiti verifies the integrity of every attendance event —
+        not just who's on camera.
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

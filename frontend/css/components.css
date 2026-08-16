@@ -1,0 +1,296 @@
+/* =============================================================================
+   Reusable components
+============================================================================= */
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 18px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    transform var(--transition-fast);
+  white-space: nowrap;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: var(--danger-muted);
+  color: var(--danger);
+  border-color: transparent;
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---- Card ---- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+.card-elevated {
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---- Badge ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.badge-success {
+  background: var(--success-muted);
+  color: var(--success);
+}
+.badge-warning {
+  background: var(--warning-muted);
+  color: var(--warning);
+}
+.badge-danger {
+  background: var(--danger-muted);
+  color: var(--danger);
+}
+.badge-info {
+  background: var(--info-muted);
+  color: var(--info);
+}
+.badge-neutral {
+  background: var(--surface-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+/* ---- Avatar ---- */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--accent-muted);
+  color: var(--accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  flex-shrink: 0;
+}
+
+/* ---- Alert ---- */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  border: 1px solid transparent;
+}
+.alert-danger {
+  background: var(--danger-muted);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.alert-success {
+  background: var(--success-muted);
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+.alert-info {
+  background: var(--info-muted);
+  color: #7dd3fc;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* ---- Spinner ---- */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Skeleton loading ---- */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-elevated) 25%, var(--surface-hover) 37%, var(--surface-elevated) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* ---- Fade-in utility ---- */
+.fade-in {
+  animation: fadeIn var(--transition-base) ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Notification bell ---- */
+.notification-bell {
+  position: relative;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: background var(--transition-fast);
+}
+.notification-bell:hover {
+  background: var(--surface-elevated);
+}
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--danger);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+.notification-dropdown {
+  position: absolute;
+  top: 56px;
+  right: var(--space-5);
+  width: 340px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  padding: var(--space-2);
+}
+.notification-item {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  border-bottom: 1px solid var(--border);
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+.notification-item.unread {
+  background: var(--accent-muted);
+}
+.notification-item-time {
+  color: var(--text-tertiary);
+  font-size: var(--fs-xs);
+  margin-top: 2px;
+}
+
+/* ---- Heatmap ---- */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12px, 1fr));
+  gap: 3px;
+  max-width: 100%;
+}
+.heatmap-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  min-width: 10px;
+  min-height: 10px;
+}
+.heatmap-legend {
+  display: flex;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+.heatmap-legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 4px;
+}

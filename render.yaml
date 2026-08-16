@@ -1,0 +1,27 @@
+# Render deployment config - recommended path: ONE service serves both
+# the FastAPI backend and the static frontend (main.py already mounts
+# frontend/ at /app, exactly like local dev does). This avoids the CORS
+# and split-origin complexity of a two-service topology entirely.
+#
+# See docs/deployment.md "Path A" for the exact click-by-click steps -
+# this file lets Render auto-detect the service config if you use
+# "New > Blueprint" instead of manually filling in the dashboard form.
+
+services:
+  - type: web
+    name: smartattend-ai
+    runtime: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: smartattend_ai
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false

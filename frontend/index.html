@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upasthiti</title>
+  <script>
+    // Entry point — route to the right page based on session state.
+    const hasToken = Boolean(localStorage.getItem("smartattend_token"));
+    window.location.replace(hasToken ? "pages/dashboard.html" : "pages/login.html");
+  </script>
+</head>
+<body></body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+ </html>

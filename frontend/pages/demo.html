@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEMO MODE — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <style>
+    .demo-banner {
+      background: repeating-linear-gradient(45deg, #7c3aed, #7c3aed 10px, #6d28d9 10px, #6d28d9 20px);
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: var(--fs-sm);
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">⚠ DEMO MODE — SYNTHETIC DATA, NOT REAL ATTENDANCE RECORDS ⚠</div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">◆</span> Dashboard</a>
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">◎</span> Live Attendance</a>
+      <a href="multi-face.html" class="nav-item"><span class="nav-icon">◫</span> Classroom Scan</a>
+      <a href="sessions.html" class="nav-item"><span class="nav-icon">▤</span> Sessions</a>
+      <a href="reviews.html" class="nav-item"><span class="nav-icon">⚑</span> Review Center</a>
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item"><span class="nav-icon">☺</span> Students</a>
+      <a href="users.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Users &amp; Roles</a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">▦</span> Analytics</a>
+      <a href="reports.html" class="nav-item"><span class="nav-icon">▧</span> Reports</a>
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item"><span class="nav-icon">▥</span> Classes</a>
+      <a href="settings.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Settings</a>
+      <a href="privacy.html" class="nav-item"><span class="nav-icon">🔒</span> Privacy Center</a>
+      <a href="demo.html" class="nav-item active"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">Demo Mode</div>
+      <div class="topbar-right">
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="alert alert-info" style="margin-bottom: var(--space-5);">
+        Everything on this page is synthetic data in a completely separate part of the
+        database (<code>demo_students</code>, <code>demo_sessions</code>, <code>demo_attendance</code>).
+        It is structurally impossible for this to appear on the real Dashboard, Students,
+        Sessions, or Analytics pages, or vice versa.
+      </div>
+
+      <div class="metrics-grid">
+        <div class="card metric-card"><div class="metric-label">Demo Students</div><div class="metric-value" id="summary-students">0</div></div>
+        <div class="card metric-card"><div class="metric-label">Demo Sessions</div><div class="metric-value" id="summary-sessions">0</div></div>
+        <div class="card metric-card"><div class="metric-label">Demo Attendance Records</div><div class="metric-value" id="summary-records">0</div></div>
+        <div class="card metric-card"><div class="metric-label">Last Generated</div><div class="metric-value" style="font-size: var(--fs-md);" id="summary-generated">Never</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom: var(--space-5);">
+        <h3 style="margin-bottom: var(--space-3);">Generate Demo Data</h3>
+        <p class="text-secondary" style="font-size: var(--fs-sm); margin-bottom: var(--space-3);">
+          Generating replaces any existing demo dataset with a fresh randomized one.
+        </p>
+        <form id="generate-form" style="display:flex; gap: var(--space-3); align-items:flex-end;">
+          <div class="field" style="margin-bottom:0;"><label>Students</label><input class="input" type="number" name="student_count" min="1" max="100" value="15" style="width:100px;" /></div>
+          <div class="field" style="margin-bottom:0;"><label>Sessions</label><input class="input" type="number" name="session_count" min="1" max="50" value="5" style="width:100px;" /></div>
+          <button type="submit" class="btn btn-primary">Generate Demo Data</button>
+          <button type="button" class="btn btn-danger" id="clear-btn">Clear Demo Data</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: var(--space-3);">Demo Dashboard</h3>
+        <div id="demo-dashboard">Loading...</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/demo.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

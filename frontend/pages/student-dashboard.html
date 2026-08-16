@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Attendance — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell" style="grid-template-columns: 1fr;">
+    <header class="topbar" style="grid-column: 1 / -1;">
+      <div class="topbar-title">Upasthiti</div>
+      <div class="topbar-right">
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content" style="grid-column: 1 / -1; max-width: 900px; margin: 0 auto; width: 100%;">
+      <div class="page-header">
+        <div>
+          <h1>My Attendance</h1>
+          <p>Your personal attendance record, risk status, and projections.</p>
+        </div>
+        <span class="badge" id="risk-badge">—</span>
+      </div>
+
+      <div id="not-linked-message" class="card hidden" style="margin-bottom: var(--space-5);">
+        <div class="empty-state">
+          <div class="empty-state-icon">◎</div>
+          <h3>Account not linked</h3>
+          <p>Your login isn't linked to a student roster record yet. Contact your administrator to link your account so your attendance can be shown here.</p>
+        </div>
+      </div>
+
+      <div id="linked-content">
+        <div class="metrics-grid">
+          <div class="card metric-card"><div class="metric-label">Attendance %</div><div class="metric-value" id="metric-percent">—</div></div>
+          <div class="card metric-card"><div class="metric-label">Present</div><div class="metric-value" id="metric-present">—</div></div>
+          <div class="card metric-card"><div class="metric-label">Late</div><div class="metric-value" id="metric-late">—</div></div>
+          <div class="card metric-card"><div class="metric-label">Absent</div><div class="metric-value" id="metric-absent">—</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-5);">
+          <h3 style="margin-bottom: var(--space-2);">Required Attendance</h3>
+          <p id="required-note" class="text-secondary" style="font-size: var(--fs-sm);">Loading...</p>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-5);">
+          <h3 style="margin-bottom: var(--space-3);">Attendance Heatmap (Last 90 Days)</h3>
+          <div id="heatmap-container"></div>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-5);">
+          <h3 style="margin-bottom: var(--space-3);">Forecast</h3>
+          <form id="forecast-form" style="display:flex; gap: var(--space-3); align-items: flex-end; margin-bottom: var(--space-3);">
+            <div class="field" style="margin-bottom:0;">
+              <label>If I attend my next N classes</label>
+              <input class="input" type="number" id="forecast-input" min="0" value="5" style="width:120px;" />
+            </div>
+            <button type="submit" class="btn btn-primary">Project</button>
+          </form>
+          <div id="forecast-result" class="text-secondary" style="font-size: var(--fs-sm);"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: var(--space-3);">Recent Attendance</h3>
+          <div id="history-strip" style="display:flex; flex-wrap:wrap; gap: 6px;"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/heatmap.js"></script>
+  <script src="../js/student-dashboard.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

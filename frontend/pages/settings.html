@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">◆</span> Dashboard</a>
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">◎</span> Live Attendance</a>
+      <a href="multi-face.html" class="nav-item"><span class="nav-icon">◫</span> Classroom Scan</a>
+      <a href="sessions.html" class="nav-item"><span class="nav-icon">▤</span> Sessions</a>
+      <a href="reviews.html" class="nav-item"><span class="nav-icon">⚑</span> Review Center</a>
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item"><span class="nav-icon">☺</span> Students</a>
+      <a href="users.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Users &amp; Roles</a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">▦</span> Analytics</a>
+      <a href="reports.html" class="nav-item"><span class="nav-icon">▧</span> Reports</a>
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item"><span class="nav-icon">▥</span> Classes</a>
+      <a href="settings.html" class="nav-item active" data-role-only="admin"><span class="nav-icon">⚙</span> Settings</a>
+      <a href="privacy.html" class="nav-item"><span class="nav-icon">🔒</span> Privacy Center</a>
+      <a href="demo.html" class="nav-item"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">Settings</div>
+      <div class="topbar-right">
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Institution Policy</h1>
+          <p>Business-rule settings — admin editable. Recognition/liveness thresholds live in server configuration, not here, since changing those needs recalibration (see docs/computer-vision.md).</p>
+        </div>
+      </div>
+
+      <div class="card" id="settings-form-card" style="max-width: 520px;">
+        <form id="policy-form" id="policy-form-fields">
+          <div class="field">
+            <label>Required Attendance %</label>
+            <input class="input" type="number" step="0.1" min="0" max="100" id="required-percent-input" required />
+          </div>
+          <div class="field">
+            <label>Default Late Threshold (minutes)</label>
+            <input class="input" type="number" min="0" max="180" id="late-threshold-input" required />
+          </div>
+          <div class="field">
+            <label>Attendance Log Retention (days, optional)</label>
+            <input class="input" type="number" min="0" id="attendance-retention-input" placeholder="No limit set" />
+          </div>
+          <div class="field">
+            <label>Recognition Log Retention (days, optional)</label>
+            <input class="input" type="number" min="0" id="recognition-retention-input" placeholder="No limit set" />
+          </div>
+          <div class="field" style="display:flex; align-items:center; gap: var(--space-2);">
+            <input type="checkbox" id="retention-enforcement-input" style="width:auto;" />
+            <label style="margin-bottom:0;">Enable automatic retention enforcement (deletes old records on the schedule above)</label>
+          </div>
+          <p class="text-tertiary" style="font-size: var(--fs-xs); margin-bottom: var(--space-4);">
+            Retention days are only acted on if this box is checked — an explicit,
+            separate authorization step, not implied by setting a number. See Privacy Center for details.
+          </p>
+          <button type="submit" class="btn btn-primary" id="policy-submit-btn">Save Policy</button>
+          <p id="policy-updated-note" class="text-tertiary" style="font-size: var(--fs-xs); margin-top: var(--space-3);"></p>
+        </form>
+        <div style="margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+          <button class="btn btn-secondary" id="run-retention-btn">Run Retention Now (test)</button>
+          <p class="text-tertiary" style="font-size: var(--fs-xs); margin-top: var(--space-2);">
+            Manually triggers the retention job for testing — still subject to the same
+            "enforcement enabled" checkbox above, no bypass.
+          </p>
+          <div id="retention-result" style="margin-top: var(--space-2);"></div>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 520px; margin-top: var(--space-5);">
+        <h3 style="margin-bottom: var(--space-2);">Recognition Calibration</h3>
+        <p class="text-secondary" style="font-size: var(--fs-sm); margin-bottom: var(--space-3);">
+          Capture a frame and see the actual similarity scores against every enrolled
+          student — use this to judge whether FACE_RECOGNITION_THRESHOLD needs
+          adjusting, instead of guessing blind.
+        </p>
+        <div class="camera-stage" style="max-width: 400px; aspect-ratio: 4/3;">
+          <video id="calibration-video" autoplay playsinline muted></video>
+        </div>
+        <button class="btn btn-primary" id="calibration-capture-btn" style="margin-top: var(--space-3);">Capture &amp; Score</button>
+        <div id="calibration-results" style="margin-top: var(--space-4);"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/camera.js"></script>
+  <script src="../js/settings.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

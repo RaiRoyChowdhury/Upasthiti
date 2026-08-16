@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item active">
+        <span class="nav-icon">◆</span> Dashboard
+      </div>
+
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item">
+        <span class="nav-icon">◎</span> Live Attendance
+      </a>
+      <a href="multi-face.html" class="nav-item">
+        <span class="nav-icon">◫</span> Classroom Scan
+      </a>
+      <a href="sessions.html" class="nav-item">
+        <span class="nav-icon">▤</span> Sessions
+      </a>
+      <a href="reviews.html" class="nav-item">
+        <span class="nav-icon">⚑</span> Review Center
+      </a>
+
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item">
+        <span class="nav-icon">☺</span> Students
+      </a>
+      <a href="users.html" class="nav-item" data-role-only="admin">
+        <span class="nav-icon">⚙</span> Users &amp; Roles
+      </a>
+
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item">
+        <span class="nav-icon">▦</span> Analytics
+      </a>
+      <a href="reports.html" class="nav-item">
+        <span class="nav-icon">▧</span> Reports
+      </a>
+
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item">
+        <span class="nav-icon">▥</span> Classes
+      </a>
+      <a href="settings.html" class="nav-item" data-role-only="admin">
+        <span class="nav-icon">⚙</span> Settings
+      </a>
+      <a href="privacy.html" class="nav-item">
+        <span class="nav-icon">🔒</span> Privacy Center
+      </a>
+
+      <div class="sidebar-footer">
+
+      </div>
+      <a href="demo.html" class="nav-item"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <!-- ================= TOPBAR ================= -->
+    <header class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <button class="notification-bell" id="notification-bell" title="Notifications">
+          🔔<span class="notification-badge hidden" id="notification-badge">0</span>
+        </button>
+        <div id="notification-dropdown" class="notification-dropdown hidden"></div>
+        <div class="user-menu" id="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div>
+            <div class="user-menu-name" id="user-name">Loading...</div>
+            <div class="user-menu-role" id="user-role">—</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Welcome back</h1>
+          <p>Here's the current state of your SmartAttend AI workspace.</p>
+        </div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="card metric-card">
+          <div class="metric-label">Total Students</div>
+          <div class="metric-placeholder" id="metric-total-students">—</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Present (All Sessions)</div>
+          <div class="metric-placeholder" id="metric-present">—</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Late (All Sessions)</div>
+          <div class="metric-placeholder" id="metric-late">—</div>
+        </div>
+        <div class="card metric-card">
+          <div class="metric-label">Attendance Rate</div>
+          <div class="metric-placeholder" id="metric-attendance-rate">—</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-state-icon">◎</div>
+          <h3>Ready to go</h3>
+          <p>
+            Enroll students, open a session, and use Live Attendance for
+            real-time recognition. Check Analytics for attendance trends,
+            or Reports to export data.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>

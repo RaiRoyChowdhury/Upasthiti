@@ -1,0 +1,7 @@
+{
+  "buildCommand": "echo 'No build step - static files only'",
+  "outputDirectory": "frontend",
+  "rewrites": [
+    { "source": "/", "destination": "/pages/login.html" }
+  ]
+}

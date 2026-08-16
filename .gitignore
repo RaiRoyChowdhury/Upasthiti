@@ -1,0 +1,38 @@
+# Environment
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# Node (future frontend tooling)
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Face recognition model weights (downloaded, not committed — added in Phase 2+)
+backend/cv/models/
+*.onnx
+
+# Build artifacts
+dist/
+build/
+*.zip

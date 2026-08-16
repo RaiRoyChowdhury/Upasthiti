@@ -1,0 +1,40 @@
+/* =============================================================================
+   Responsive adjustments
+============================================================================= */
+
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 208px;
+  }
+  .main-content {
+    padding: var(--space-5);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "topbar"
+      "main";
+  }
+  .sidebar {
+    display: none; /* Phase 1: collapse to a simple top-level shell on mobile.
+                        A slide-out drawer nav is a nice-to-have for a later phase. */
+  }
+  .topbar {
+    padding: 0 var(--space-4);
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: var(--space-5) var(--space-4);
+  }
+  .main-content {
+    padding: var(--space-4);
+  }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classroom Scan — SmartAttend AI</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/camera.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-mark">U</div>
+        <div class="sidebar-brand-name">Upasthiti</div>
+      </div>
+      <div class="nav-section-label">Overview</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">◆</span> Dashboard</a>
+      <div class="nav-section-label">Attendance</div>
+      <a href="attendance.html" class="nav-item"><span class="nav-icon">◎</span> Live Attendance</a>
+      <a href="multi-face.html" class="nav-item active"><span class="nav-icon">◫</span> Classroom Scan</a>
+      <a href="sessions.html" class="nav-item"><span class="nav-icon">▤</span> Sessions</a>
+      <a href="reviews.html" class="nav-item"><span class="nav-icon">⚑</span> Review Center</a>
+      <div class="nav-section-label">People</div>
+      <a href="students.html" class="nav-item"><span class="nav-icon">☺</span> Students</a>
+      <a href="users.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Users &amp; Roles</a>
+      <div class="nav-section-label">Insights</div>
+      <a href="analytics.html" class="nav-item"><span class="nav-icon">▦</span> Analytics</a>
+      <a href="reports.html" class="nav-item"><span class="nav-icon">▧</span> Reports</a>
+      <div class="nav-section-label">Management</div>
+      <a href="classes.html" class="nav-item"><span class="nav-icon">▥</span> Classes</a>
+      <a href="settings.html" class="nav-item" data-role-only="admin"><span class="nav-icon">⚙</span> Settings</a>
+      <a href="privacy.html" class="nav-item"><span class="nav-icon">🔒</span> Privacy Center</a>
+      <a href="demo.html" class="nav-item"><span class="nav-icon">🎭</span> Demo Mode</a>
+    </aside>
+
+    <header class="topbar">
+      <div class="topbar-title">Classroom Scan</div>
+      <div class="topbar-right">
+        <span class="badge badge-info" id="scan-status">Starting...</span>
+        <div class="user-menu">
+          <div class="avatar" id="user-avatar">?</div>
+          <div><div class="user-menu-name" id="user-name">Loading...</div><div class="user-menu-role" id="user-role">—</div></div>
+        </div>
+        <button class="btn btn-secondary" id="logout-btn">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="alert alert-info" style="margin-bottom: var(--space-4);">
+        Informational only — this page shows who's currently in frame but does
+        <strong>not</strong> mark attendance. Use Live Attendance for that,
+        which requires a completed liveness check per student.
+      </div>
+
+      <div class="camera-layout">
+        <div class="camera-stage">
+          <video id="camera-video" autoplay playsinline muted></video>
+          <canvas id="overlay-canvas" class="overlay-canvas"></canvas>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: var(--space-3);">Detected Faces</h3>
+          <div id="faces-list">Waiting for camera...</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/camera.js"></script>
+  <script src="../js/overlay.js"></script>
+  <script src="../js/multi-face.js"></script>
+</body>
+<footer class="footer">
+  <p>
+    &copy; <span id="year"></span> <span class="brand">Upasthiti</span> &bull; 
+    Made with <i class="heart">❤️</i> by <strong class="team">Team HugTheBug</strong>
+  </p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script> </html>
