@@ -1,6 +1,5 @@
 FROM python:3.11-slim
 
-# Install system build dependencies and OpenCV requirements
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     g++ \
@@ -13,18 +12,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download InsightFace models during image build
 RUN python -c "import insightface; insightface.app.FaceAnalysis(name='buffalo_l').prepare(ctx_id=-1)"
 
-# Copy backend and frontend folders into the container
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
 WORKDIR /app/backend
+
+ENV PYTHONPATH=/app/backend
 
 EXPOSE 8000
 
