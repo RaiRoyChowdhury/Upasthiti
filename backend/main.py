@@ -10,11 +10,15 @@ Phase 10: retention enforcement background job (docs/retention.md).
 """
 
 import asyncio
-import sys, os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import sys
+import os
 
-# Your existing imports continue below:
-from services.face_service import get_face_analyzer
+# Add both current dir and parent dir to Python path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+# Local imports follow below:
+
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -34,7 +38,7 @@ from utils.exceptions import register_exception_handlers
 from utils.logger import configure_logging, get_logger
 
 # Import face service helper for model pre-loading
-from services.face_service import get_face_analyzer
+
 
 from api.routes import (
     analytics_routes,
@@ -70,9 +74,15 @@ async def _warmup_face_models_async() -> None:
     """
     logger.info("Starting background warmup of InsightFace recognition models...")
     loop = asyncio.get_running_loop()
+    loop = asyncio.get_running_loop()
     try:
         # Run sync model initialization in a thread pool so it doesn't block FastAPI
-        await loop.run_in_executor(None, get_face_analyzer)
+        from cv.face_detector import FaceModelSingleton
+
+        await loop.run_in_executor(None, FaceModelSingleton().get_app)
+        logger.info("Face recognition models successfully warmed up and loaded in memory.")
+    except Exception as exc:
+        logger.error("Failed to pre-load face recognition models: %s", exc)
         logger.info("Face recognition models successfully warmed up and loaded in memory.")
     except Exception as exc:
         logger.error("Failed to pre-load face recognition models: %s", exc)
