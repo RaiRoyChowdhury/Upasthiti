@@ -20,10 +20,10 @@ RUN python -c "import insightface; insightface.app.FaceAnalysis(name='buffalo_l'
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
-WORKDIR /app/backend
+WORKDIR /app
 
 ENV PYTHONPATH=/app/backend
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "10000"]
