@@ -445,3 +445,157 @@ the parts I could not execute here at all.
 
 See `docs/security.md` (added in a later phase) for the full security model
 once biometric data is introduced.
+
+# UPASTHITI — How to Run (PowerShell)
+
+This is a short, practical guide to get the app running locally in
+PowerShell. For full feature docs, architecture, and phase history, see
+`README.md` and the `docs/` folder.
+
+---
+
+## Prerequisites (one-time, skip if already done)
+
+- Python 3.11 or 3.12 installed
+- A MongoDB database — either MongoDB Atlas (recommended, free tier) or
+  a local MongoDB install
+- Git (only needed if you plan to push this to GitHub later)
+
+---
+
+## First-time setup
+
+If this is your **very first time** running the project (no existing
+`.venv` from a previous phase), do this:
+
+```powershell
+# 1. Go to the project folder (the one containing backend/, frontend/, requirements.txt)
+cd "C:\Users\<you>\Downloads\smartattend-ai\smartattend-ai"
+
+# 2. Create a virtual environment
+python -m venv .venv
+
+# 3. Activate it
+.\.venv\Scripts\Activate.ps1
+
+# 4. Install dependencies (this takes a while — opencv/insightface are large)
+pip install -r requirements.txt
+
+# 5. Set up your environment file
+copy .env.example .env
+notepad .env
+```
+
+In Notepad, set at minimum:
+- `MONGODB_URI` — your MongoDB Atlas connection string (or `mongodb://localhost:27017` for local Mongo)
+- `JWT_SECRET` — generate one with:
+  ```powershell
+  python -c "import secrets; print(secrets.token_urlsafe(64))"
+  ```
+
+Save and close Notepad.
+
+```powershell
+# 6. Create your first admin account
+cd backend
+python scripts/create_admin.py
+```
+Follow the prompts (name, email, password).
+
+---
+
+## If you already have a working `.venv` from a previous version
+
+Reuse it instead of reinstalling everything — much faster:
+
+```powershell
+# 1. Copy your .env from the old folder
+copy "C:\path\to\old-version\smartattend-ai\.env" "C:\path\to\new-version\smartattend-ai\.env"
+
+# 2. Copy your working .venv from the old folder
+Copy-Item -Recurse "C:\path\to\old-version\smartattend-ai\.venv" "C:\path\to\new-version\smartattend-ai\.venv"
+
+# 3. Verify the copy worked
+Test-Path "C:\path\to\new-version\smartattend-ai\.venv\Scripts\python.exe"
+# should print: True
+```
+
+If a newer version added a dependency, `pip install -r requirements.txt`
+once inside the new folder (with the venv activated) to catch anything
+missing — check `requirements.txt`'s comments for what's new.
+
+---
+
+## Every time you want to run the app
+
+```powershell
+# 1. Go to the project folder
+cd "C:\Users\<you>\Downloads\smartattend-ai\smartattend-ai"
+
+# 2. Activate the virtual environment
+.\.venv\Scripts\Activate.ps1
+
+# 3. Move into the backend folder
+cd backend
+
+# 4. Start the server
+python -m uvicorn main:app --reload --port 8000
+```
+
+Wait for this line before continuing:
+```
+INFO:     Application startup complete.
+```
+
+Leave this terminal window open and running.
+
+---
+
+## Open the app
+
+In your browser (Incognito/Private window recommended, to avoid stale
+cache from previous versions):
+
+```
+http://127.0.0.1:8000/app/pages/login.html
+```
+
+Log in with the admin account you created.
+
+- **API docs (Swagger)**: `http://127.0.0.1:8000/docs`
+- **Health check**: `http://127.0.0.1:8000/api/health`
+
+---
+
+## Stopping the server
+
+Click into the terminal window and press `Ctrl+C`.
+
+---
+
+## Quick troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `uvicorn : term not recognized` | Venv not activated | Run `.\.venv\Scripts\Activate.ps1` — check for `(.venv)` in your prompt |
+| `Error loading ASGI app. Could not import module "main"` | Wrong folder | Run `pwd` — must end in `...\smartattend-ai\backend` |
+| Page loads but looks outdated / missing new features | Browser cache | Open in a fresh Incognito window |
+| `NotReadableError` on camera | Camera locked by another app | Close other camera apps/tabs; if it persists, restart your computer |
+| MongoDB won't connect at startup | Wrong `MONGODB_URI` or IP not allow-listed | Check `.env`, and in Atlas confirm your current IP is under Network Access |
+| `.venv\Scripts\python.exe` missing after copying | Copy didn't finish, or was nested wrong | Delete `.venv`, redo the `Copy-Item` command carefully, verify with `Test-Path` before continuing |
+
+---
+
+## Folder reference
+
+```
+smartattend-ai/
+├── backend/          ← run uvicorn from here
+│   ├── main.py
+│   └── scripts/create_admin.py
+├── frontend/          ← served automatically by the backend, no separate step needed
+├── .env               ← your real config (never commit this)
+├── .env.example        ← template, safe to commit
+├── requirements.txt
+└── docs/              ← detailed feature/architecture documentation
+```
